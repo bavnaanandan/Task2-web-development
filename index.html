@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Stopwatch</title>
+<style>
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial;
+background:#111;
+color:#fff
+}
+.box{
+text-align:center
+}
+#time{
+font-size:48px;
+margin-bottom:20px
+}
+button{
+padding:10px 15px;
+margin:5px;
+font-size:16px;
+cursor:pointer
+}
+ul{
+list-style:none;
+padding:0;
+margin-top:15px;
+max-height:150px;
+overflow:auto
+}
+</style>
+</head>
+<body>
+<div class="box">
+<div id="time">00:00:00</div>
+<button onclick="start()">Start</button>
+<button onclick="stop()">Stop</button>
+<button onclick="reset()">Reset</button>
+<button onclick="lap()">Lap</button>
+<ul id="laps"></ul>
+</div>
+
+<script>
+let ms=0,s=0,m=0
+let timer=null
+
+function update(){
+ms++
+if(ms==100){ms=0;s++}
+if(s==60){s=0;m++}
+document.getElementById("time").innerText=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0")+":"+
+String(ms).padStart(2,"0")
+}
+
+function start(){
+if(timer==null){
+timer=setInterval(update,10)
+}
+}
+
+function stop(){
+clearInterval(timer)
+timer=null
+}
+
+function reset(){
+stop()
+ms=0;s=0;m=0
+document.getElementById("time").innerText="00:00:00"
+document.getElementById("laps").innerHTML=""
+}
+
+function lap(){
+let li=document.createElement("li")
+li.innerText=document.getElementById("time").innerText
+document.getElementById("laps").appendChild(li)
+}
+</script>
+</body>
+</html>
